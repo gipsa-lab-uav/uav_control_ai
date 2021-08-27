@@ -1,0 +1,40 @@
+<launch>
+	<arg name="drone" default="simu" />
+
+	<arg name="simulated_env" default="true" />
+	<arg name="trajectory_gen" default="true" />
+	<arg name="display" default="true" />
+	<arg name="rosbag_record" default="true" />
+
+	<arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/empty.world" />
+
+	<include file="$(find px4)/launch/mavros_posix_sitl.launch" if="$(arg simulated_env)">
+		<arg name="world" value="$(arg world)" />
+		<arg name="verbose" value="true" />
+	</include>
+
+
+	<node pkg="uav_control_ai" type="uav_control_ai_node.py" name="uav_control_ai_node" output="screen">
+		<param name="simulated_env" value="$(arg simulated_env)" />
+		<rosparam file="$(find uav_control_ai)/config/$(arg drone)_params.yaml" command="load" />
+	</node>
+
+	<node pkg="uav_control_ai" type="odom2posetwist.py" name="odom2posetwist">
+        <remap from="odom" to="/odom_gt"/>
+        <remap from="pose" to="/mavros/vision_pose/pose" />
+        <remap from="speed_twist_cov" to="/mavros/vision_speed/speed_twist_cov" />
+        <param name="pos_noise" value="0.001"/>
+        <param name="rot_noise" value="0.001"/>
+        <param name="vel_noise" value="0.001"/>
+        <param name="rotvel_noise" value="0.001"/>
+  	</node>
+
+	<node pkg="uav_control_ai" type="ai_node.py" name="ai_node" output="screen"></node>
+
+	<node pkg="uav_control_ai" type="trajectory_gen.py" name="trajectory_gen_node" output="screen" if="$(arg trajectory_gen)" required="true"></node>
+
+	<node pkg="uav_control_ai" type="display.py" name="display_node" if="$(arg display)"></node>
+
+	<node pkg="rosbag" type="record" name="rosbag_record_cam" args="record -o $(find uav_control_ai)/rosbag/bag --all" if="$(arg rosbag_record)"></node>
+
+</launch>

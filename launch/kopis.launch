@@ -1,0 +1,21 @@
+<launch>
+	<arg name="drone" default="kopis" />
+	<arg name="simulated_env" default="false" />
+	<arg name="trajectory_gen" default="true" />
+	<arg name="display" default="true" />
+	<arg name="rosbag_record" default="true" />
+
+	<node pkg="uav_control_ai" type="uav_control_ai_node.py" name="uav_control_ai_node" output="screen">
+			<param name="simulated_env" value="$(arg simulated_env)" />
+			<rosparam file="$(find uav_control_ai)/config/$(arg drone)_params.yaml" command="load" />
+	</node>
+
+	<node pkg="uav_control_ai" type="ai_node.py" name="ai_node" output="screen"></node>
+
+	<node pkg="uav_control_ai" type="trajectory_gen.py" name="trajectory_gen_node" output="screen" if="$(arg trajectory_gen)" required="true"></node>
+
+	<node pkg="uav_control_ai" type="display.py" name="display_node" if="$(arg display)"></node>
+
+	<node pkg="rosbag" type="record" name="rosbag_record_cam" args="record -o $(find uav_control_ai)/rosbag/bag --all" if="$(arg rosbag_record)"></node>
+
+</launch>

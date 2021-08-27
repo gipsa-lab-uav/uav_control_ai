@@ -1,0 +1,35 @@
+###############################################################################
+## Configuration file
+## Drone name: kopis
+###############################################################################
+name: "kopis"
+
+## General Controller parameters
+ctrl_freq: 100
+
+mass: 0.552
+hoverCompensation: 0.4
+
+## Controller type
+# clin : cascaded linear controller
+# clin_ai : cascaded linear controller & ai correction
+
+ctr_type: "clin"
+# ctr_type: "clin_ai"
+
+## Controller Gains
+# Cascaded Linear Controller
+
+# Normal Gains
+clin_kx : 0.1414
+clin_kvx : 0.1971
+clin_ky : -0.1414
+clin_kvy : -0.1971
+clin_kz : 2.5
+clin_kvz : 2.
+clin_kangle : 4.47
+clin_ff : 0.
+
+## DNN Correction
+# If AI is used, set the DNN model path :
+nn_model_path : '/dnn_model/model_lrn_00036.h5'

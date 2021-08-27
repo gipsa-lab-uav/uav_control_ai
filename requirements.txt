@@ -1,0 +1,12 @@
+numpy
+scipy
+toml
+jinja2
+tensorflow
+keras
+python-rospy
+matplotlib
+tk
+scikit-learn
+Pillow==2.7.0
+

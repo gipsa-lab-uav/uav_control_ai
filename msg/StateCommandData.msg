@@ -1,0 +1,14 @@
+float64[] positions
+float64[] positions_linear_des
+float64[] positions_vicon
+float64[] positions_ref
+float64[] velocities_linear
+float64[] velocities_linear_ref
+float64[] accelerations_linear
+float64[] euler_angles
+float64[] velocities_angular
+float64 thrust_cmd
+float64[] corr
+float64[] angular_velocities_cmd
+float64 time
+float64 battery
