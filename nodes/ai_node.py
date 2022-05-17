@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -204,6 +204,21 @@ class AiNode:
         qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
         return [qx, qy, qz, qw]
 
+    def wrap_error_yaw(self, angles, angles_ref):
+        def wrap(x, low, high):
+            if (low <= x and x < high):
+                value = x
+            else:
+                range = high - low
+                inv_range = 1.0 / range
+                num_wraps = np.floor((x - low) * inv_range)
+                value = x - range * num_wraps
+            return value
+        error = angles - angles_ref
+        angles[2] = self.wrap(angles[2], -np.pi, np.pi)
+        error[2] = self.wrap(angles[2] - angles_ref[2], -np.pi, np.pi)
+        return error
+
     def start_controller_cascaded(self):
         if self.ctr_type in ['clin', 'clin_ai']:
             rospy.Timer(rospy.Duration(1.0 / self.ctrl_freq), self.cascaded_linear_state_feedback)
@@ -230,6 +245,16 @@ class AiNode:
         x_dot = self.state_command.velocities_linear[0]
         y_dot = self.state_command.velocities_linear[1]
         z_dot = self.state_command.velocities_linear[2]
+
+        phi = self.state_command.euler_angles[0]
+        theta = self.state_command.euler_angles[1]
+        psi = self.state_command.euler_angles[2]
+
+        speed_rot = np.matmul(rt.rot_m(psi, theta, phi,'ZYX'), np.array([[x_dot, y_dot, z_dot]]).T)
+
+        x_dot = speed_rot[0][0]
+        y_dot = speed_rot[1][0]
+        z_dot = speed_rot[2][0]
 
         with_ff = self.ctr_gains[7]
         state_ref = np.append(np.asarray(self.state_command.positions_ref[0:3]), with_ff*np.asarray(self.state_command.velocities_linear_ref[0:3]))
@@ -264,13 +289,23 @@ class AiNode:
             self.state_command.corr[1] = angles_ref[0]
             self.state_command.corr[2] = angles_ref[1]
 
-        phi = self.state_command.euler_angles[0]
-        theta = self.state_command.euler_angles[1]
-        psi = self.state_command.euler_angles[2]
+
+        Rpsi = np.array([[np.cos(psi), np.sin(psi)],
+                         [-np.sin(psi), np.cos(psi)]])
+
+        angles_ref_rot = np.matmul(Rpsi, np.array([angles_ref[0:2]]).T)
+
+
+        # Rpsi = np.array([[np.cos(psi), -np.sin(psi)],
+        #                  [np.sin(psi), np.cos(psi)]])
+        # angles_ref_rot = np.matmul(np.linalg.inv(Rpsi), np.array([angles_ref[0:2]]).T)
+        angles_ref[0] = angles_ref_rot[0][0]
+        angles_ref[1] = angles_ref_rot[1][0]
+        angles_ref[2] = psi_ref
 
         state_attitude = np.array([phi, theta, psi])
+        erreur_attitude = -self.wrap_error_yaw(state_attitude, angles_ref)
 
-        erreur_attitude = angles_ref - state_attitude
         command_attitude = np.array([kangle*erreur_attitude[0], kangle*erreur_attitude[1], kangle*erreur_attitude[2]])
 
         # Compute Desired Linear Behavior
@@ -289,7 +324,7 @@ class AiNode:
             angles_ref_k = np.array([phi_ref_k, theta_ref_k, psi_ref_k])
             thrust_ref_k = -kz*error_pos_speed_k[2]-kvz*error_pos_speed_k[5]
             erreur_attitude_k = angles_ref_k - self.discrete_xk[3:6].reshape(-1)
-            command_attitude_k = np.array([4.47*erreur_attitude_k[0], 4.47*erreur_attitude_k[1], 4.47*erreur_attitude_k[2] ])
+            command_attitude_k = np.array([kangle*erreur_attitude_k[0], kangle*erreur_attitude_k[1], kangle*erreur_attitude_k[2] ])
 
             # Linear expected behavior
             # self.discrete_xk = np.array([[x, y, z, phi, theta, psi, x_dot, y_dot, z_dot]]).T
@@ -325,7 +360,7 @@ class AiNode:
 
         # Fill msg for publisher
         self.attitude_trgt.body_rate = body_rate
-        self.attitude_trgt.orientation = quat
+        # self.attitude_trgt.orientation = quat
         self.attitude_trgt.thrust = self.clamp(thrust_ref * self.hoverComp/ (self.mass * 9.81)+self.hoverComp,0.0,1.0)
 
         # Publishing cmd =  p_ref, q_ref, r_ref, thrust_ref

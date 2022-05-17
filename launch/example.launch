@@ -9,6 +9,7 @@
 	<arg name="world" default="$(find mavlink_sitl_gazebo)/worlds/empty.world" />
 
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch" if="$(arg simulated_env)">
+		<arg name="sdf" default="$(find mavlink_sitl_gazebo)/models/kopis/kopis.sdf"/>
 		<arg name="world" value="$(arg world)" />
 		<arg name="verbose" value="true" />
 	</include>

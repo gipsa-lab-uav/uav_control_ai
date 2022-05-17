@@ -8,7 +8,7 @@ name: "simu"
 ctrl_freq: 100
 
 mass: 0.552
-hoverCompensation: 0.3
+hoverCompensation: 0.36
 
 ## Controller type
 # clin : cascaded linear controller

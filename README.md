@@ -1,10 +1,33 @@
-# UAV Control with AI - Enhanced Linear Cascaded Control for Quadrotor via Neural Modelling
+# UAV Control with AI - Neural Enhanced Control for Quadrotor Linear Behavior Fitting
 
 Trajectory generation and control algorithms using AI for UAVs with ROS wrapping.
 
-This repository provides the code associated to the paper : Enhanced Linear Cascaded Control for Quadrotor via Neural Modelling
-[Paper link]
-[Video link]
+This repository provides the code associated to the paper :
+
+Esteban Carvalho, Pierre Susbielle, Ahmad Hably, Jilles Dibangoye, Nicolas Marchand. **Neural Enhanced Control for Quadrotor Linear Behavior Fitting**
+ICUAS 2022 - IEEE International Conference on Unmanned Aircraft Systems, Jun 2022, Dubrovnik, Croatia [hal-03650833v1](https://hal.archives-ouvertes.fr/hal-03650833v1).
+
+
+[![Neural Enhanced Control for Quadrotor Linear Behavior Fitting](https://img.youtube.com/vi/c70nlsMVi9M/0.jpg)](https://youtu.be/c70nlsMVi9M)
+
+## Citing
+If you use this code, please quote the following publication :
+
+```
+@inproceedings{carvalho:hal-03650833,
+  TITLE = {{Neural Enhanced Control for Quadrotor Linear Behavior Fitting}},
+  AUTHOR = {Carvalho, Esteban and Susbielle, Pierre and Hably, Ahmad and Dibangoye, Jilles and Marchand, Nicolas},
+  URL = {https://hal.archives-ouvertes.fr/hal-03650833},
+  BOOKTITLE = {{ICUAS 2022 - IEEE International Conference on Unmanned Aircraft Systems}},
+  ADDRESS = {Dubrovnik, Croatia},
+  PUBLISHER = {{IEEE}},
+  YEAR = {2022},
+  MONTH = Jun,
+  PDF = {https://hal.archives-ouvertes.fr/hal-03650833/file/Neural_Enhanced_Control_for_Quadrotor_Linear_Behavior_Fitting.pdf},
+  HAL_ID = {hal-03650833},
+  HAL_VERSION = {v1},
+}
+```
 
 This project uses external software such as Mavros, PX4 or Gazebo. Below are the links directing to their documentations:
 

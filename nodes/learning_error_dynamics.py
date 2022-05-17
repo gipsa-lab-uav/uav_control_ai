@@ -1,7 +1,7 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import Tkinter as tk
+import tkinter as tk
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt

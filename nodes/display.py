@@ -1,10 +1,10 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import rospy
 import numpy as np
 import matplotlib.pyplot as plt
-from Tkinter import TclError
+from tkinter import TclError
 
 import tf.transformations
 from nav_msgs.msg import Odometry
@@ -35,9 +35,9 @@ class Display:
         self.thr = np.zeros(self.x_100.size)
 
         # EKF fusion position published at 100Hz
-        self.x_measured = np.zeros(self.x_30.size)
-        self.y_measured = np.zeros(self.x_30.size)
-        self.z_measured = np.zeros(self.x_30.size)
+        self.x_measured = np.zeros(self.x_100.size)
+        self.y_measured = np.zeros(self.x_100.size)
+        self.z_measured = np.zeros(self.x_100.size)
 
         # Reference points published at 100Hz
         self.x_reference = np.zeros(self.x_100.size)
@@ -73,9 +73,9 @@ class Display:
         self.thr = np.append(self.thr, attitude.thrust)[-self.window_100:]
 
     def positionCallback(self, odometry):
-        self.x_measured = np.append(self.x_measured, odometry.pose.pose.position.x)[-self.window_30:]
-        self.y_measured = np.append(self.y_measured, odometry.pose.pose.position.y)[-self.window_30:]
-        self.z_measured = np.append(self.z_measured, odometry.pose.pose.position.z)[-self.window_30:]
+        self.x_measured = np.append(self.x_measured, odometry.pose.pose.position.x)[-self.window_100:]
+        self.y_measured = np.append(self.y_measured, odometry.pose.pose.position.y)[-self.window_100:]
+        self.z_measured = np.append(self.z_measured, odometry.pose.pose.position.z)[-self.window_100:]
 
     def referenceCallback(self, trajectoryPoint):
         positions = trajectoryPoint.positions
@@ -143,9 +143,9 @@ class Display:
         # ax_pos.set_title('Measured (-) & reference (--) & estimated (:) position')
         ax_pos.legend(['x_measured', 'y_measured', 'z_measured', 'x_reference', 'y_reference', 'z_reference', 'x_estimated', 'y_estimated', 'z_estimated'])
         ax_pos.set_xlim(0, self.time_window)
-        line_xmea, = ax_pos.plot(self.x_30, self.x_measured, 'r-')
-        line_ymea, = ax_pos.plot(self.x_30, self.y_measured, 'g-')
-        line_zmea, = ax_pos.plot(self.x_30, self.z_measured, 'b-')
+        line_xmea, = ax_pos.plot(self.x_100, self.x_measured, 'r-')
+        line_ymea, = ax_pos.plot(self.x_100, self.y_measured, 'g-')
+        line_zmea, = ax_pos.plot(self.x_100, self.z_measured, 'b-')
         line_xref, = ax_pos.plot(self.x_100, self.x_reference, 'r--')
         line_yref, = ax_pos.plot(self.x_100, self.y_reference, 'g--')
         line_zref, = ax_pos.plot(self.x_100, self.z_reference, 'b--')

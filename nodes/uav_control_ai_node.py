@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import numpy as np
@@ -173,7 +173,6 @@ if __name__ == '__main__':
 
 
     #************************** Publishing References *************************#
-    rospy.sleep(10)
 
     while not rospy.is_shutdown():
         # UavCtrAiN.ref_pub.publish(UavCtrAiN.getNextTrajectoryPoint(rospy.get_time()))
@@ -188,8 +187,10 @@ if __name__ == '__main__':
                 UavCtrAiN.set_arm(True, 1)
 
         if UavCtrAiN.drone_state.mode == "OFFBOARD" and UavCtrAiN.drone_state.armed == True:
+            # print('Cest bon')
             nextpoint = UavCtrAiN.getNextTrajectoryPoint(rospy.get_time())
             if not nextpoint == []:
                 UavCtrAiN.ref_pub.publish(nextpoint)
+
 
         rate.sleep()

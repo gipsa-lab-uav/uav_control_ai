@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import math
@@ -714,85 +714,22 @@ if __name__ == '__main__':
         vel = trajectory_object.TRAJECTORY_REQUESTED_SPEED
         ech_val = 1
 
-        # for i in range(5):
-        #     trajectory_object.rdm_sequence(nb_actions=5, seed=i+150-100, max_vel=vel)
-
         trajectory_object.discretise_trajectory(parameters=['takeoff', 1], velocity=vel, heading=['still'])
         trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-
-        # # Echelons sur z
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 1.5]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 0.5]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 1.5]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 1]], heading=['still'])
-
-        # Echelon y
-        trajectory_object.discretise_trajectory(parameters=['vector_ech', [0, ech_val, 1]], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector_ech', [0, 0, 1]], heading=['still'])
-
-        # Echelon x
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector_ech', [ech_val, 0, 1]], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector_ech', [0, 0, 1]], heading=['still'])
-
-        # Echelon xy
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector_ech', [ech_val, ech_val, 1]], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector_ech', [0, 0, 1]], heading=['still'])
-
-        # Retour a 0.5m
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
+        trajectory_object.discretise_trajectory(parameters=['circle', [0, 0.5, 1], 2], velocity=0.5, heading=['auto', [1, 0]], relative=True)
+        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['axes', [1,0]])
+        trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 1.5]], heading=['still'])
+        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
         trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 0.5]], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-
-        # Echelon xyz
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector', [ech_val, ech_val, 0.5+ech_val]], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4.], heading=['still'])
+        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
+        trajectory_object.discretise_trajectory(parameters=['vector', [1., 1., 1.5]], heading=['still'])
+        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
         trajectory_object.discretise_trajectory(parameters=['vector', [0, 0, 1]], heading=['still'])
-        #
-        # Cercle
-        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['circle', [0, 0.5, 1], 2], velocity=vel, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 5], heading=['still'])
-
-        # Spirale montee
-        trajectory_object.discretise_trajectory(parameters=['vector', [0., -.3, 1.]], velocity=vel, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 5], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector', [0., -.3, 0.5]], velocity=vel, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['circle', [.0, 0.5, 0.], 2, 1], velocity=vel, acceleration=0.1, heading=['still'], relative=True)
-        trajectory_object.discretise_trajectory(parameters=['hover', 5.])
-
-        # Spirale descente
-        trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['circle', [.0, 0.5, 0.], 2, -1], velocity=vel, acceleration=0.1, heading=['still'], relative=True)
-        trajectory_object.discretise_trajectory(parameters=['hover', 5.])
 
         # Lemniscate
-        trajectory_object.discretise_trajectory(parameters=['hover', 4], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['lemniscate', [0, 0, 1], 0.9, 0], velocity=vel, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4], heading=['still'])
-
-        # Lemniscate
-        trajectory_object.discretise_trajectory(parameters=['hover', 4], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['lemniscate', [0, 0, 1], 0.8, 1], velocity=vel, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 4], heading=['still'])
-
-        # Wave
-        trajectory_object.discretise_trajectory(parameters=['hover', 3.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector', [1.5, -1.5, 1.5]], velocity=0.6, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 3.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['wave', [-1.5, 1.5, 1.5], 0.1, 0.5], velocity=1., heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 3.], heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['vector', [0., 0., 1.5]], velocity=0.6, heading=['still'])
-        trajectory_object.discretise_trajectory(parameters=['hover', 3.])
+        # trajectory_object.discretise_trajectory(parameters=['hover', 4], heading=['still'])
+        # trajectory_object.discretise_trajectory(parameters=['lemniscate', [0, 0, 1], 0.9, 0], velocity=vel, heading=['still'])
+        # trajectory_object.discretise_trajectory(parameters=['hover', 4], heading=['still'])
 
         # Square
         trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
@@ -806,30 +743,6 @@ if __name__ == '__main__':
         trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
         trajectory_object.discretise_trajectory(parameters=['vector', [0., -.5, 1.]], heading=['still'])
         trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-
-        # # Forme sablier
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0., 0., 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0.5, 0, 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0., 1, 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0.5, 1, 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0., 0., 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-
-        # # Forme sablier hauteur
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0., 0., 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0.5, 0, 0.5]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0., 1, 1.5]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0.5, 1, 0.5]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['vector', [0., 0., 1.]], heading=['still'])
-        # trajectory_object.discretise_trajectory(parameters=['hover', 5.], heading=['still'])
 
         # Landing
         trajectory_object.discretise_trajectory(parameters=['landing'])
@@ -852,7 +765,7 @@ if __name__ == '__main__':
             # Checks before publishing
             trajectory_object.wait_drone_armed()
             trajectory_object.wait_drone_offboard()
-
+            # rospy.sleep(1)
             # Publish trajectory states
             trajectory_object.start()
 
