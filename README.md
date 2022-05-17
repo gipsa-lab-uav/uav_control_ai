@@ -103,6 +103,10 @@ Install the required Python packages:
 pip install -r requirements.txt
 ```
 
+```
+sudo apt-get install python3-pil python3-pil.imagetk
+```
+
 To finish the installation run:
 ```bash
 cd ..
